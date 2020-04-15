@@ -1,0 +1,2 @@
+model_checkpoint_path: "softmax_mnist"
+all_model_checkpoint_paths: "softmax_mnist"
