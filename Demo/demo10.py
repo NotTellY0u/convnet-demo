@@ -2,9 +2,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import numpy as np
 from numpy.random.mtrand import randint
-from PIL import Image
-import mnist_data
-
+from Demo import mnist_data
 
 mnist = mnist_data.read_data_sets('data', one_hot=True)
 sess = tf.InteractiveSession()

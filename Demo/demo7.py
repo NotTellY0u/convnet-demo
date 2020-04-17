@@ -1,7 +1,7 @@
 from random import randint
 
 import tensorflow as tf
-import mnist_data
+from Demo import mnist_data
 import numpy as np
 
 logs_path = 'log_simple_stats_softmax'

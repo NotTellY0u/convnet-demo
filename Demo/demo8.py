@@ -1,6 +1,5 @@
 import tensorflow as tf
-import mnist_data
-from tensorflow.examples.tutorials.mnist import input_data
+from Demo import mnist_data
 
 # 读入数据  ‘data’ 是我保存数据的文件夹的名称
 mnist = mnist_data.read_data_sets('data', one_hot=True)

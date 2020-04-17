@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-import mnist_data
+from Demo import mnist_data
 
 batch_size = 128
 test_size = 256
@@ -54,7 +54,7 @@ def model(X, w, w2, w3, w4, w_o, p_keep_conv, p_keep_hidden):
     return result
 
 
-mnist = mnist_data.read_data_sets("data",one_hot=True)
+mnist = mnist_data.read_data_sets("data", one_hot=True)
 
 trX, trY, teX, teY = mnist.train.images,\
                      mnist.train.labels, \
