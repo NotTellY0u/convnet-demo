@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7f4988bc-3f30-4dc5-8228-e20aa4903d3b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deep Learning/derivative.py" beforeDir="false" afterPath="$PROJECT_DIR$/Deep Learning/derivative.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,6 +36,9 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\PycharmProjects\Demo\Demo" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\PycharmProjects\Demo" />
       <recent name="C:\Users\yangf\AppData\Local\Programs\Python\Python37\Scripts" />
@@ -245,6 +249,7 @@
       <workItem from="1573797712879" duration="2965000" />
       <workItem from="1586912816294" duration="707000" />
       <workItem from="1586913595422" duration="5438000" />
+      <workItem from="1587086241671" duration="2258000" />
     </task>
     <servers />
   </component>
