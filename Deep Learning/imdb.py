@@ -48,7 +48,7 @@ model.add(layers.Dense(16, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 
 # model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])
-model.compile(optimizer=optimizers.RMSprop(lr=0.001), loss='binary_crossentropy', metrics=['accuracy'])
+#model.compile(optimizer=optimizers.RMSprop(lr=0.001), loss='binary_crossentropy', metrics=['accuracy'])
 
 # model.compile(optimizer=optimizers.RMSprop(lr=0.001), loss=losses.binary_crossentropy,metrics=[metrics.binary_accuracy])
 x_val = x_train[:10000]
@@ -60,6 +60,7 @@ model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['acc'])
 history = model.fit(partial_x_train, partial_y_train, epochs=20, batch_size=512, validation_data=(x_val, y_val))
 history_dict = history.history
 history_dict.keys()
+
 
 history_dict = history.history
 loss_values = history_dict['loss']
