@@ -61,7 +61,6 @@ history = model.fit(partial_x_train, partial_y_train, epochs=20, batch_size=512,
 history_dict = history.history
 history_dict.keys()
 
-
 history_dict = history.history
 loss_values = history_dict['loss']
 val_loss_values = history_dict['val_loss']
