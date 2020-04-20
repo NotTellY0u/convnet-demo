@@ -48,7 +48,7 @@ model.add(layers.Dense(16, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 
 # model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])
-#model.compile(optimizer=optimizers.RMSprop(lr=0.001), loss='binary_crossentropy', metrics=['accuracy'])
+model.compile(optimizer=optimizers.RMSprop(lr=0.001), loss='binary_crossentropy', metrics=['accuracy'])
 
 # model.compile(optimizer=optimizers.RMSprop(lr=0.001), loss=losses.binary_crossentropy,metrics=[metrics.binary_accuracy])
 x_val = x_train[:10000]
