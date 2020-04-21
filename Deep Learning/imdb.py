@@ -40,14 +40,12 @@ y_train = np.asanyarray(train_labels).astype('float32')
 y_test = np.asanyarray(test_labels).astype('float32')
 
 model = models.Sequential()
-model.add(layers.Dense(64, activation='relu'))
-model.add(layers.Dense(32, activation='relu'))
 model.add(layers.Dense(32, activation='relu', input_shape=(10000,)))
 model.add(layers.Dense(16, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 
-model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])
-model.compile(optimizer=optimizers.RMSprop(lr=0.001), loss='binary_crossentropy', metrics=['accuracy'])
+# model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])
+# model.compile(optimizer=optimizers.RMSprop(lr=0.001), loss='binary_crossentropy', metrics=['accuracy'])
 
 model.compile(optimizer=optimizers.RMSprop(lr=0.001), loss=losses.binary_crossentropy,
               metrics=[metrics.binary_accuracy])
