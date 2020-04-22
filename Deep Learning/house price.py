@@ -63,7 +63,7 @@ for i in range(k):
     all_score.append(val_mae)
 
 # 修改训练循环，保存每折的验证结果
-num_epochs = 500
+num_epochs = 5000
 all_mae_histories = []
 for i in range(k):
     print('processing fold #', i)
