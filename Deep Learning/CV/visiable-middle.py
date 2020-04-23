@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 model = load_model('animal-model.h5')
 
-img_path = '../dogcatdata/small/test/cats/cat.1700.jpg'
+img_path = '../../dogcatdata/small/test/cats/cat.1700.jpg'
 
 img = image.load_img(img_path, target_size=(150, 150))
 img_tensor = image.img_to_array(img)

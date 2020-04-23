@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 conv_base = VGG16(weights='imagenet',  # 初始化权重检查点
                   include_top=False,  # 是否包含密集连接分类器
                   input_shape=(150, 150, 3))  # 输入形状
-base_dir = '../dogcatdata/small'
+base_dir = '../../dogcatdata/small'
 train_dir = os.path.join(base_dir, 'train')
 test_dir = os.path.join(base_dir, 'test')
 validation_dir = os.path.join(base_dir, 'validation')

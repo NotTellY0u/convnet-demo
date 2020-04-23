@@ -15,9 +15,9 @@ from keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 from keras.preprocessing import image
 
-original_dataset_dir = '../dogcatdata/train'
+original_dataset_dir = '../../dogcatdata/train'
 
-base_dir = '../dogcatdata/small'
+base_dir = '../../dogcatdata/small'
 train_dir = os.path.join(base_dir, 'train')
 test_dir = os.path.join(base_dir, 'test')
 
