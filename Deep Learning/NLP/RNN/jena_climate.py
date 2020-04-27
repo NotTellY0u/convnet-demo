@@ -7,14 +7,14 @@ Author: 不告诉你
 Software: PyCharm
 GitHub: https://github.com/Saber891
 """
+# 观察耶拿天气
 import os
-import numpy as np
+
 import matplotlib.pyplot as plt
-from keras.models import Sequential
+import numpy as np
 from keras import layers
+from keras.models import Sequential
 from keras.optimizers import RMSprop
-from keras.models import Model
-from keras.preprocessing import sequence
 
 data_dir = '../../../climate-data'
 fname = os.path.join(data_dir, 'jena_climate_2009_2016.csv')
@@ -44,6 +44,16 @@ std = float_data[:200000].std(axis=0)
 float_data /= std
 
 
+# lookback = 720 ：给定过去 5 天内的观测数据
+# steps = 6 ：观测数据的采样频率是每小时一个数据点
+# delay = 144 ：目标是未来 24 小时之后的数据
+# data ：浮点数数据组成的原始数组
+# lookback ：输入数据应该包括过去多少个时间步
+# delay ：目标应该在未来多少个时间步之后
+# min_index 和 max_index ： data 数组中的索引，用于界定需要抽取哪些时间步。这有助于保存一部分数据用于验证、另一部分用于测试
+# shuffle ：是打乱样本，还是按顺序抽取样本
+# batch_size ：每个批量的样本数
+# step ：数据采样的周期（单位：时间步）。我们将其设为 6，为的是每小时抽取一个数据点
 def generator(data, lookback, delay, min_index, max_index, shuffle=False, batch_size=128, step=6):
     if max_index is None:
         max_index = len(data) - delay - 1
@@ -68,6 +78,7 @@ def generator(data, lookback, delay, min_index, max_index, shuffle=False, batch_
         yield samples, targets
 
 
+# 准备训练生成器、验证生成器和测试生成器
 lookback = 1440
 step = 6
 delay = 144
@@ -94,9 +105,10 @@ test_gen = generator(float_data,
                      max_index=None,
                      step=step,
                      batch_size=batch_size)
-val_steps = (300000 - 200001 - lookback) // batch_size
-test_steps = (len(float_data) - 300001 - lookback) // batch_size
+val_steps = (300000 - 200001 - lookback) // batch_size  # 为了查看整个验证集，需要从 val_gen 中抽取多少次
+test_steps = (len(float_data) - 300001 - lookback) // batch_size  # 为了查看整个测试集，需要从test_gen 中抽取多少次
 
+# 训练并评估一个使用 dropout 正则化的堆叠 GRU 模型
 model = Sequential()
 model.add(layers.GRU(32,
                      dropout=0.1,
@@ -116,6 +128,7 @@ history = model.fit_generator(train_gen,
                               validation_steps=val_steps)
 
 
+# 计算符合常识的基准方法的 MAE
 def evaluate_native_method():
     batch_maes = []
     for step in range(val_steps):
@@ -127,4 +140,5 @@ def evaluate_native_method():
 
 
 evaluate_native_method()
+# 将 MAE 转换成摄氏温度误差
 celsius_mae = 0.29 * std[1]

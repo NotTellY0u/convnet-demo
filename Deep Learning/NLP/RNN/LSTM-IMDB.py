@@ -17,7 +17,7 @@ maxlen = 500  # 在这么多单词之后截断文本
 batch_size = 32
 
 print('load data...')
-(input_train, y_train), (input_test, y_test) = imdb.load_data(num_words=max_features)
+(input_train, y_train), (input_test, y_test) = imdb.load_data(num_words=max_features) # 加载数据
 print(len(input_train), 'train sequences')
 print(len(input_test), 'test sequences')
 
