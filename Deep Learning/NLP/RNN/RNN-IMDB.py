@@ -7,6 +7,7 @@ Author: 不告诉你
 Software: PyCharm
 GitHub: https://github.com/Saber891
 """
+# 基于RNN的IMDB电影评论分类
 from keras.datasets import imdb
 from keras.preprocessing import sequence
 from keras.layers import Dense
@@ -30,7 +31,7 @@ input_train = sequence.pad_sequences(input_train, maxlen=maxlen)
 input_test = sequence.pad_sequences(input_test, maxlen=maxlen)
 print('input_train shape:', input_train.shape)
 print('input_test shape:', input_test.shape)
-
+# 用 Embedding 层和 SimpleRNN 层来训练模型
 model = Sequential()
 model.add(Embedding(max_features, 32))
 model.add(SimpleRNN(32))

@@ -7,6 +7,7 @@ Author: 不告诉你
 Software: PyCharm
 GitHub: https://github.com/Saber891
 """
+# 简单 RNN 的 Numpy 实现
 import numpy as np
 
 timesteps = 100  # 输入序列的时间步数

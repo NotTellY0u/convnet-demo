@@ -7,6 +7,7 @@ Author: 不告诉你
 Software: PyCharm
 GitHub: https://github.com/Saber891
 """
+# 从原始文本到词嵌入
 import os
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
@@ -15,6 +16,7 @@ from keras.models import Sequential
 from keras.layers import Embedding, Flatten, Dense
 import matplotlib.pyplot as plt
 
+# 处理 IMDB 原始数据的标签
 imdb_dir = '../../../imdb-data/aclImdb'
 
 train_dir = os.path.join(imdb_dir, 'train')
@@ -33,7 +35,7 @@ for label_type in ['neg', 'pos']:
                 labels.append(1)
             else:
                 labels.append(0)
-
+# 对 IMDB 原始数据的文本进行分词
 maxlen = 100  # 在 100 个单词后截断评论
 tarining_samples = 200  # 在 200 个样本上训练
 validation_samples = 10000  # 在 10 000 个样本上验证
@@ -61,7 +63,7 @@ x_train = data[:tarining_samples]
 y_train = labels[:tarining_samples]
 x_val = data[tarining_samples:tarining_samples + validation_samples]
 y_val = labels[tarining_samples:tarining_samples + validation_samples]
-
+# 解析 GloVe 词嵌入文件
 glove_dir = '../../../imdb-data/glove.6B/'
 embeddings_index = {}
 f = open(os.path.join(glove_dir, 'glove.6B.100d.txt'), encoding='utf-8')
@@ -72,7 +74,7 @@ for line in f:
     embeddings_index[word] = coefs
 f.close()
 print('Found %s word vector.' % len(embeddings_index))
-
+# 准备 GloVe 词嵌入矩阵
 embedding_dim = 100
 embedding_matrix = np.zeros((max_words, embedding_dim))
 for word, i in word_index.items():
@@ -80,14 +82,14 @@ for word, i in word_index.items():
         embedding_vector = embeddings_index.get(word)
         if embedding_vector is not None:
             embedding_matrix[i] = embedding_vector  # 嵌入索引（ embeddings_index ）中找不到的词，其嵌入向量全为0
-
+# 模型定义
 model = Sequential()
 model.add(Embedding(max_words, embedding_dim, input_length=maxlen))
 model.add(Flatten())
 model.add(Dense(32, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 model.summary()
-
+# 将预训练的词嵌入加载到 Embedding 层中
 model.layers[0].set_weights([embedding_matrix])
 model.layers[0].trainable = False
 
@@ -114,15 +116,15 @@ plt.title('Training and validation loss')
 plt.legend()
 plt.show()
 
-test_dir = os.path.join(imdb_dir,'test')
+test_dir = os.path.join(imdb_dir, 'test')
 labels = []
 texts = []
 
-for label_type in ['neg','pos']:
-    dir_name = os.path.join(test_dir,label_type)
+for label_type in ['neg', 'pos']:
+    dir_name = os.path.join(test_dir, label_type)
     for fname in sorted(os.listdir(dir_name)):
         if fname[-4:] == '.txt':
-            f = open(os.path.join(dir_name,fname),encoding='utf-8')
+            f = open(os.path.join(dir_name, fname), encoding='utf-8')
             texts.append(f.read())
             f.close()
             if label_type == 'neg':
@@ -130,8 +132,8 @@ for label_type in ['neg','pos']:
             else:
                 labels.append(1)
 sequences = tokenizer.texts_to_sequences(texts)
-x_test = pad_sequences(sequences,maxlen=maxlen)
+x_test = pad_sequences(sequences, maxlen=maxlen)
 y_test = np.asarray(labels)
 
 model.load_weights('pre_trained_glove_model.h5')
-model.evaluate(x_test,y_test)
+model.evaluate(x_test, y_test)
