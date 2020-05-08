@@ -21,7 +21,7 @@ style_reference_image_path = '2.jpg'  # 风格图像的路径
 
 width, height = load_img(target_image_path).size  # 生成图像的尺寸
 img_height = 400
-img_width = int(width * img_height / height)
+img_width = 400
 
 
 # 辅助函数
@@ -34,9 +34,9 @@ def preprocess_image(image_path):
 
 
 def deprocess_image(x):
-    x[:, :, 0] += 103.939  # vgg19.preprocess_input 的作用是减去 ImageNet 的平均像素值，使其中心为 0。这里相当于 vgg19.preprocess_input 的逆操作
-    x[:, :, 1] += 116.779
-    x[:, :, 2] += 123.68
+    x[:, :, 0] = x + 103.939  # vgg19.preprocess_input 的作用是减去 ImageNet 的平均像素值，使其中心为 0。这里相当于 vgg19.preprocess_input 的逆操作
+    x[:, :, 1] = x + 116.779
+    x[:, :, 2] = x + 123.68
     x = x[:, :, ::-1]  # 将图像由 BGR 格式转换为 RGB 格式。这也是vgg19.preprocess_input 逆操作的一部分
     x = np.clip(x, 0, 255).astype('uint8')
     return x
@@ -147,7 +147,7 @@ result_prefix = 'my_result'
 iterations = 20
 
 x = preprocess_image(target_image_path)
-x = x.flatten(order='C')
+x = x.flatten()
 for i in range(iterations):
     print('Start of iteration', i)
     start_time = time.time()
