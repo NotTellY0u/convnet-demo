@@ -14,11 +14,13 @@ from keras import backend as K
 from keras.models import Model
 import numpy as np
 from keras.datasets import mnist
+import matplotlib.pyplot as plt
+from scipy.stats import norm
 
-z_mean, z_log_variance = encoder(input_img)  # 将输入编码为平均值和方差两个参数
-z = z_mean + exp(z_log_variance) * ellipsis
-reconstructed_img = decoder(z)
-model = Model(input_img, reconstructed_img)
+# z_mean, z_log_variance = encoder(input_img)  # 将输入编码为平均值和方差两个参数
+# z = z_mean + exp(z_log_variance) * ellipsis
+# reconstructed_img = decoder(z)
+# model = Model(input_img, reconstructed_img)
 
 img_shape = (28, 28, 1)
 batch_size = 16
@@ -96,6 +98,25 @@ vae.summary()
 x_train = x_train.astype('float32') / 255.
 x_train = x_train.reshape(x_train.shape + (1,))
 x_test = x_test.astype('float32') / 255.
-x_test = x_test.reshape(x_train.shape + (1,))
+x_test = x_test.reshape(x_test.shape + (1,))
 
 vae.fit(x=x_train, y=None, shuffle=True, epochs=10, batch_size=batch_size, validation_data=(x_test, None))
+
+n = 15
+digit_size = 28
+figure = np.zeros((digit_size * n, digit_size * n))
+grid_x = norm.ppf(np.linspace(0.05, 0.95, n))
+grid_y = norm.ppf(np.linspace(0.05, 0.95, n))
+
+for i,yi in enumerate(grid_x):
+    for j,xi in enumerate(grid_y):
+        z_sample = np.array([[xi,yi]])
+        z_sample = np.tile(z_sample,batch_size).reshape(batch_size,2)
+        x_decoded = decoder.predict(z_sample,batch_size = batch_size)
+        digit = x_decoded[0].reshape(digit_size,digit_size)
+        figure[i * digit_size:(i+1)*digit_size,
+                j *digit_size:(j+1)*digit_size] = digit
+
+plt.figure(figsize=(10,10))
+plt.imshow(figure,cmap='Greys_r')
+plt.show()
