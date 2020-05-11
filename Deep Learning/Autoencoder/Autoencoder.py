@@ -22,6 +22,8 @@ from scipy.stats import norm
 # reconstructed_img = decoder(z)
 # model = Model(input_img, reconstructed_img)
 
+
+# VAE 编码器网络
 img_shape = (28, 28, 1)
 batch_size = 16
 latent_dim = 2
@@ -42,6 +44,7 @@ z_mean = layers.Dense(latent_dim)(x)
 z_log_var = layers.Dense(latent_dim)(x)
 
 
+# 潜在空间采样的函数
 def sampling(args):
     z_mean, z_log_var = args
     epsilon = K.random_normal(shape=(K.shape(z_mean)[0], latent_dim),
@@ -51,9 +54,10 @@ def sampling(args):
 
 z = layers.Lambda(sampling)([z_mean, z_log_var])
 
-decoder_input = layers.Input(K.int_shape(z)[1:])
+# VAE 解码器网络，将潜在空间点映射为图像
+decoder_input = layers.Input(K.int_shape(z)[1:])  # 需要将 z 输入到这里
 
-x = layers.Dense(np.prod(shape_before_flattening[1:]),
+x = layers.Dense(np.prod(shape_before_flattening[1:]),  # 对输入进行上采样
                  activation='relu')(decoder_input)
 x = layers.Reshape(shape_before_flattening[1:])(x)
 
@@ -87,7 +91,8 @@ class CustomVariationalLayer(keras.layers.Layer):
         return x
 
 
-y = CustomVariationalLayer()([input_img, z_decoded])
+
+y = CustomVariationalLayer()([input_img,z_decoded])
 
 vae = Model(input_img, y)
 vae.compile(optimizer='rmsprop', loss=None)
@@ -108,15 +113,15 @@ figure = np.zeros((digit_size * n, digit_size * n))
 grid_x = norm.ppf(np.linspace(0.05, 0.95, n))
 grid_y = norm.ppf(np.linspace(0.05, 0.95, n))
 
-for i,yi in enumerate(grid_x):
-    for j,xi in enumerate(grid_y):
-        z_sample = np.array([[xi,yi]])
-        z_sample = np.tile(z_sample,batch_size).reshape(batch_size,2)
-        x_decoded = decoder.predict(z_sample,batch_size = batch_size)
-        digit = x_decoded[0].reshape(digit_size,digit_size)
-        figure[i * digit_size:(i+1)*digit_size,
-                j *digit_size:(j+1)*digit_size] = digit
+for i, yi in enumerate(grid_x):
+    for j, xi in enumerate(grid_y):
+        z_sample = np.array([[xi, yi]])
+        z_sample = np.tile(z_sample, batch_size).reshape(batch_size, 2)
+        x_decoded = decoder.predict(z_sample, batch_size=batch_size)
+        digit = x_decoded[0].reshape(digit_size, digit_size)
+        figure[i * digit_size:(i + 1) * digit_size,
+        j * digit_size:(j + 1) * digit_size] = digit
 
-plt.figure(figsize=(10,10))
-plt.imshow(figure,cmap='Greys_r')
+plt.figure(figsize=(10, 10))
+plt.imshow(figure, cmap='Greys_r')
 plt.show()
